@@ -8,62 +8,84 @@
 import SwiftUI
 
 struct ContentView: View {
-    var emojis = ["😄", "😻", "👹", "🤠", "😄", "😻", "👹", "🤠", "🤠", "😄", "😻", "👹", "🤠"]
     
-    @State var cardCount: Int = 4
+    @State var emojis = ["🤫", "🥱", "🤮", "😪", "🤤", "😴", "🤑", "🥴", "🤠", "🤧"]
     
+    @State var cardCount = 10
+        
     var body: some View {
         VStack {
-            Label(
-                title: { Text("Memorize!") },
-                icon: { Image(systemName: "Memorize") } // лишняя строка
-            )
-            .font(.largeTitle)
+            Text("Memorize!").font(.largeTitle)
             
             ScrollView {
                 cards
             }
-            cardCountAdjusters
+            choiceThemeButton
         }
          .padding()
     }
 
     var cards: some View {
-        LazyVGrid(columns: [GridItem(.adaptive(minimum: 120))]) {
-            ForEach(0..<cardCount, id: \.self) {index in
+        LazyVGrid(columns: [GridItem(.adaptive(minimum: 65))]) {
+            ForEach(0..<cardCount, id: \.self) { index in
                 CardView(content: emojis[index])
+               // CardView(content: emojis[index])
                     .aspectRatio(2/3, contentMode: .fit)
             }
         }
         .foregroundColor(.orange)
     }
     
-    var cardCountAdjusters: some View {
-        HStack {
-            cardRemover
-            Spacer()
-            cardAdder
+    var choiceThemeButton: some View {
+        HStack(alignment: .bottom, spacing: 50)
+        {
+            carButton
+            animalsButton
+            emojiButton
         }
         .imageScale(.large)
-        .font(.largeTitle)
+        .font(.title)
     }
     
-    func cardCounterAdjuster(by offset: Int, symbol: String) -> some View {
-        Button(action: {
-            cardCount += offset
-        }, label: {
-            Image(systemName: symbol)
-        })
-        .disabled(cardCount + offset < 1 || cardCount + offset > emojis.count)
+    var emojisCarTheme = ["🚔", "🚍", "🚘", "🚖", "🛻", "🚒", "🚐", "🚚", "🚛", "🚜", "🛺", "🚕"]
+    var carButton: some View {
+        Button {
+            cardCount = emojisCarTheme.count
+            emojis = emojisCarTheme.shuffled()
+        } label: {
+            VStack {
+                Image(systemName: "car.rear")
+                Text("cars").font(.subheadline)
+            }
+        }
     }
     
-    var cardRemover: some View {
-        cardCounterAdjuster(by: -1, symbol: "rectangle.stack.badge.minus.fill")
+    var emojisAnimalsTheme = ["🐶", "🐫", "🐭", "🦧", "🦁", "🐽", "🐸", "🐻"]
+    var animalsButton: some View {
+        Button {
+            cardCount = emojisAnimalsTheme.count
+            emojis = emojisAnimalsTheme.shuffled()
+        } label: {
+            VStack {
+                Image(systemName: "pawprint.circle")
+                Text("animals").font(.subheadline)
+            }
+        }
     }
     
-    var cardAdder: some View {
-        cardCounterAdjuster(by: +1, symbol: "rectangle.stack.badge.plus.fill")
+    var emojisFaces = ["🤫", "🥱", "🤮", "😪", "🤤", "😴", "🤑", "🥴", "🤠", "🤧"]
+    var emojiButton: some View {
+        Button {
+            cardCount = emojisFaces.count
+            emojis = emojisFaces.shuffled()
+        } label: {
+            VStack {
+            Image(systemName: "smiley")
+                Text("faces").font(.subheadline)
+            }
+        }
     }
+
 }
 
 struct CardView: View {
