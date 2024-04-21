@@ -14,6 +14,12 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
+            Label(
+                title: { Text("Memorize!") },
+                icon: { Image(systemName: "Memorize") } // лишняя строка
+            )
+            .font(.largeTitle)
+            
             ScrollView {
                 cards
             }
