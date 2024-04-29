@@ -17,7 +17,6 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
             let content = cardContentFactiry(pairIndex)
             cards.append(Card(content: content, id: "\(pairIndex)a"))
             cards.append(Card(content: content, id: "\(pairIndex)b"))
-
         }
     }
     
